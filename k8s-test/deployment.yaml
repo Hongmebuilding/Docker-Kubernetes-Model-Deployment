@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sample-app
+  labels: # Deployment에 사용할 라벨 추가
+    app: sample-app
+spec:
+  replicas: 3 # Pod의 복제본 수
+  selector:
+    matchLabels:
+      app: sample-app # Service와 동일한 라벨
+  template:
+    metadata:
+      labels:
+        app: sample-app # Service와 일치해야 함
+    spec:
+      containers:
+      - name: sample-app
+        image: nginx:latest # Nginx 컨테이너 이미지 사용
+        ports:
+        - containerPort: 80 # 컨테이너 내부에서 사용하는 포트
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sample-service
+spec:
+  selector:
+    app: sample-app # Deployment와 동일한 라벨
+  ports:
+    - protocol: TCP
+      port: 80 # 클러스터 내부에서 사용할 포트
+      targetPort: 80 # Pod의 컨테이너가 사용하는 포트
+      nodePort: 30007 # 외부에서 접근 가능한 포트
+  type: NodePort # NodePort를 사용하여 외부에서 접근 가능

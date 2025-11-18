@@ -1,0 +1,19 @@
+apiVersion: apps/v1  # 이 리소스의 API 버전 (apps/v1은 Deployment에 사용됨)
+kind: Deployment      # Kubernetes 리소스의 종류 (여기서는 Deployment)
+metadata:             # 리소스의 메타데이터 정보
+  name: web-deployment  # Deployment의 이름 (고유 식별자)
+spec:                 # Deployment의 스펙 정의
+  replicas: 2         # 이 Deployment가 생성할 Pod 복제본 개수
+  selector:           # 이 Deployment가 관리할 Pod를 선택하는 기준
+    matchLabels:      # 선택 기준으로 사용할 라벨
+      app: web        # 라벨 키와 값 (app: web인 Pod를 선택)
+  template:           # Pod 템플릿 정의
+    metadata:         # Pod에 적용할 메타데이터
+      labels:         # Pod에 지정할 라벨
+        app: web      # Pod에 추가될 라벨 (app: web)
+    spec:             # Pod의 스펙 정의
+      containers:     # Pod에 포함될 컨테이너 목록
+      - name: web         # 컨테이너 이름
+        image: nginx      # 컨테이너에서 사용할 이미지 (여기서는 Nginx)
+        ports:            # 컨테이너의 네트워크 포트 정의
+        - containerPort: 80  # 컨테이너에서 노출할 포트 번호

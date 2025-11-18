@@ -1,0 +1,28 @@
+version: '3.8'
+services:
+  # Nginx Reverse Proxy 역할
+  nginx:
+    image: nginx:latest
+    container_name: nginx-proxy
+    ports:
+      - "8080:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - app-old
+      - app-new
+
+  # 기존 버전 (app-old)
+  app-old:
+    image: nginx:latest
+    container_name: app-old
+    volumes:
+      - ./app-old/index.html:/usr/share/nginx/html/index.html
+
+  # 새 버전 (app-new)
+  app-new:
+    image: nginx:latest
+    container_name: app-new
+    volumes:
+      - ./app-new/index.html:/usr/share/nginx/html/index.html
+

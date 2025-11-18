@@ -1,0 +1,23 @@
+stages:
+  - build
+  - deploy
+
+# 1️⃣ Docker 이미지 빌드 & 푸시
+build:
+  stage: build
+  script:
+    - echo "Docker 이미지 빌드 시작!"
+    - docker build -t registry.gitlab.com/kt-ds1/iris_project:latest .
+    - docker push registry.gitlab.com/kt-ds1/iris_project:latest
+  only:
+    - main
+
+# 2️⃣ Kubernetes 배포
+deploy:
+  stage: deploy
+  script:
+    - echo "Kubernetes 배포 시작!"
+    - kubectl apply -f k8s/deployment.yaml
+    - kubectl apply -f k8s/service.yaml
+  only:
+    - main
