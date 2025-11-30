@@ -16,6 +16,6 @@ spec:
     spec:
       containers:
       - name: example-app
-        image: <dockerhub-username>/cd-pipeline:latest
+        image: survd0404299/cd-pipeline:latest
         ports:
         - containerPort: 80

@@ -7,9 +7,15 @@ services:        # 실행할 컨테이너 정의
     volumes:
       - ./web:/usr/share/nginx/html  # 로컬 디렉토리를 컨테이너에 마운트
   db:
-    image: mysql:5.7
-    environment:   # 환경 변수 설정
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: example_db
+    image: mongo:7
+    container_name: mongo-db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: rootpassword
+      MONGO_INITDB_DATABASE: example_db
+    volumes:
+      - db-data:/data/db
+    ports:
+      - "27017:27017"
 volumes:
   db-data:  # MySQL 데이터 볼륨
